@@ -26,6 +26,16 @@ resource "aws_iam_role_policy_attachment" "demo-AmazonEKSClusterPolicy"{
   role       = aws_iam_role.demo.name
 }
 
+resource "aws_iam_role_policy_attachment" "demo-AmazonEKSServicePolicy"{
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEKSServicePolicy"
+  role       = aws_iam_role.demo.name
+}
+
+resource "aws_iam_role_policy_attachment" "demo-AmazonEKSVPCResourceControllerPolicy"{
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEKSVPCResourceController"
+  role       = aws_iam_role.demo.name
+}
+
 #-------------------------------------------------------------------
 #-----------------------NODES IAM ROLE------------------------------
 #-------------------------------------------------------------------

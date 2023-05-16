@@ -12,17 +12,18 @@ module "vpc" {
 
   enable_nat_gateway     = true
   one_nat_gateway_per_az = true
+  enable_dns_hostnames   = true
 
   public_subnet_tags_per_az = {
     "${local.region}a" = {
       "availability-zone" = "${local.region}a",
       "kubernetes.io/role/elb" = "1",
-      "kubernetes.io/cluster/demo" = "owned"
+      "kubernetes.io/cluster/demo" = "shared"
     }
     "${local.region}b" = {
       "availability-zone" = "${local.region}b",
       "kubernetes.io/role/elb" = "1",
-      "kubernetes.io/cluster/demo" = "owned"
+      "kubernetes.io/cluster/demo" = "shared"
     }
   }
   
@@ -30,18 +31,19 @@ module "vpc" {
     "${local.region}a" = {
       "availability-zone" = "${local.region}a",
       "kubernetes.io/role/internal-elb" = "1",
-      "kubernetes.io/cluster/demo" = "owned"
+      "kubernetes.io/cluster/demo" = "shared"
     }
     "${local.region}b" = {
       "availability-zone" = "${local.region}b",
       "kubernetes.io/role/internal-elb" = "1",
-      "kubernetes.io/cluster/demo" = "owned"
+      "kubernetes.io/cluster/demo" = "shared"
     }
   }
   
   tags = {
     Terraform = "true"
     Environment = "dev"
+    "kubernetes.io/cluster/demo" = "shared"
   }
 }
 
