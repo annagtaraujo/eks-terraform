@@ -22,11 +22,11 @@ resource "aws_security_group_rule" "cluster_egress_internet" {
 
 resource "aws_security_group_rule" "cluster_http_inbound" {
   description              = "Allow worker nodes to communicate with the cluster API Server"
-  from_port                = 443
+  from_port                = 0 #443
   protocol                 = "tcp"
   security_group_id        = aws_security_group.eks_cluster.id
   source_security_group_id = aws_security_group.eks_nodes.id
-  to_port                  = 443
+  to_port                  = 65535 #443
   type                     = "ingress"
 }
 
@@ -47,13 +47,6 @@ resource "aws_security_group" "eks_nodes" {
   name        = "eks-node-sg"
   description = "Security group for all nodes in the cluster"
   vpc_id      = module.vpc.vpc_id
-
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
 
   tags = {
     Name                         = "eks-node-sg"
@@ -120,4 +113,3 @@ resource "aws_security_group_rule" "workers_ingress_cluster_primary" {
   to_port                  = 65535
   type                     = "ingress"
 }
-

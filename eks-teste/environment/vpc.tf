@@ -51,3 +51,17 @@ locals{
   region = "us-east-2"
 }
 
+#----------------------------EC2 JUMPBOX------------------------
+
+resource "aws_instance" "jumpbox"{ #depois instalar o kubectl via user-data
+  
+  ami                    = "ami-069d73f3235b535bd"
+  instance_type          = "t2.micro"
+  subnet_id              = module.vpc.public_subnets[1]
+  vpc_security_group_ids = [module.jumpbox-sg.security_group_id]
+  key_name               = "teste-anna-develop-ohio"
+
+  tags = {
+    Name = "jumpbox-eks-teste"
+  }
+} 

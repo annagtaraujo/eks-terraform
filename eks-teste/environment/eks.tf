@@ -52,11 +52,11 @@ resource "aws_eks_node_group" "private-nodes" {
 
   ami_type       = "AL2_x86_64" # AL2_x86_64, AL2_x86_64_GPU, AL2_ARM_64, CUSTOM
   capacity_type  = "ON_DEMAND"
-  instance_types = ["t2.medium"]
+  instance_types = ["t3.large"]
   disk_size      = 20
 
   scaling_config {
-    desired_size = 1
+    desired_size = 3
     max_size     = 5
     min_size     = 0
   }
@@ -92,7 +92,6 @@ resource "aws_eks_node_group" "private-nodes" {
     aws_security_group_rule.workers_ingress_cluster_kubelet,
     aws_security_group_rule.workers_ingress_cluster_https,
     aws_security_group_rule.workers_ingress_cluster_primary,
-    aws_security_group_rule.cluster_primary_ingress_workers,
     aws_iam_role_policy_attachment.nodes-AmazonEKSWorkerNodePolicy,
     aws_iam_role_policy_attachment.nodes-AmazonEKS_CNI_Policy,
     aws_iam_role_policy_attachment.nodes-AmazonEC2ContainerRegistryReadOnly
